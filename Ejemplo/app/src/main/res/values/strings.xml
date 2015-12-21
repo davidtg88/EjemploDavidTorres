@@ -4,5 +4,6 @@
     <string name="title_activity_menu">MenuActivity</string>
     <string name="title_activity_test">TestActivity</string>
     <string name="button_send">Enviar</string>
+    <string name="button_ayuda">Ver Ayuda</string>
     <string name="title_activity_exercise">ExerciseActivity</string>
 </resources>

@@ -30,4 +30,11 @@
         android:visibility="invisible"
         android:text="@string/button_send"
         android:onClick="send"/>
+    <Button
+        android:id="@+id/button_ayuda_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:text="@string/button_ayuda"
+        android:onClick="ayuda"/>
 </LinearLayout>
