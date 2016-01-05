@@ -10,14 +10,18 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Layout;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.MediaController;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import java.net.URI;
 
@@ -116,5 +120,27 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
             LinearLayout layout = (LinearLayout) findViewById(R.id.test_id_Layout);
             layout.addView(web);
         }
+    }
+    private void showVideo(String advise){
+        VideoView video = new VideoView(this);
+        video.setVideoURI(Uri.parse(advise));
+        ViewGroup.LayoutParams params =new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        video.setLayoutParams(params);
+        MediaController controller = new MediaController(this){
+            @Override
+        public void hide(){
+                }
+            @Override
+        public boolean dispatchKeyEvent(KeyEvent event){
+                if(event.getKeyCode()==KeyEvent.KEYCODE_BACK)
+                    finish();
+                return super.dispatchKeyEvent(event);
+            }
+        };
+        controller.setAnchorView(video);
+        video.setMediaController(controller);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.test_id_Layout);
+        layout.addView(video);
+        video.start();
     }
 }
