@@ -38,6 +38,6 @@
         android:id="@+id/button_record_video"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Subir Video"
+        android:text="Grabar Video"
         android:onClick="recordVideo"/>
 </LinearLayout>

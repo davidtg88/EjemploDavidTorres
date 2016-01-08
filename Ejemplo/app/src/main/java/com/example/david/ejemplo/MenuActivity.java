@@ -30,5 +30,8 @@ public class MenuActivity extends AppCompatActivity {
         Intent intent= new Intent(this,TestActivity.class);
         startActivity(intent);
     }
-
+    public void nuevoEjercicio(View view) {
+        Intent intent= new Intent(this,ExerciseActivity.class);
+        startActivity(intent);
+    }
 }

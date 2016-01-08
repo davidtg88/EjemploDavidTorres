@@ -18,7 +18,7 @@ public class AudioPlayer
         private MediaPlayer player;
         private MediaController controller;
 
-    public AudioPlayer(View view, final Runnable onExit){
+    public AudioPlayer(View view){
         this.view=view;
         player=new MediaPlayer();
         player.setOnPreparedListener(this);
@@ -27,7 +27,6 @@ public class AudioPlayer
         public boolean dispatchKeyEvent(KeyEvent event){
                 if(event.getKeyCode()==KeyEvent.KEYCODE_BACK){
                     release();
-                    onExit.run();
                 }
                 return super.dispatchKeyEvent(event);
             }
@@ -40,12 +39,6 @@ public class AudioPlayer
             player.prepare();
             player.start();
         }
-        @Override
-    public void onPrepared(MediaPlayer mp){
-            controller.setMediaPlayer(this);
-            controller.setAnchorView(view);
-            controller.show(0);
-        }
     public void release(){
         if(player!=null){
             player.stop();
@@ -54,56 +47,42 @@ public class AudioPlayer
         }
     }
     @Override
-    public void start(){
-        player.start();
-    }
-    @Override
-    public void pause(){
-        player.pause();
+    public void onPrepared(MediaPlayer np){
+        controller.setMediaPlayer(this);
+        controller.setAnchorView(view);
+        controller.show(0);
     }
 
     @Override
-    public int getDuration() {
-        return 0;
-    }
+    public void start(){player.start();}
 
     @Override
-    public int getCurrentPosition() {
-        return 0;
-    }
+    public void pause(){player.pause();}
 
     @Override
-    public void seekTo(int pos) {
-
-    }
+    public int getDuration() {return player.getDuration();}
 
     @Override
-    public boolean isPlaying() {
-        return false;
-    }
+    public int getCurrentPosition() {return player.getCurrentPosition();}
 
     @Override
-    public int getBufferPercentage() {
-        return 0;
-    }
+    public void seekTo(int pos) {player.seekTo(pos);}
 
     @Override
-    public boolean canPause() {
-        return false;
-    }
+    public boolean isPlaying() {return player.isPlaying();}
 
     @Override
-    public boolean canSeekBackward() {
-        return false;
-    }
+    public int getBufferPercentage() {return (player.getCurrentPosition()*100)/player.getDuration();}
 
     @Override
-    public boolean canSeekForward() {
-        return false;
-    }
+    public boolean canPause() {return true;}
 
     @Override
-    public int getAudioSessionId() {
-        return 0;
-    }
+    public boolean canSeekBackward() {return false;}
+
+    @Override
+    public boolean canSeekForward() {return false;}
+
+    @Override
+    public int getAudioSessionId() {return player.getAudioSessionId();}
 }

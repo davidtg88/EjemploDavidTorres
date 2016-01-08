@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import java.io.IOException;
 import java.net.URI;
 
 public class TestActivity extends AppCompatActivity implements View.OnClickListener{
@@ -58,6 +59,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
             radio.setOnClickListener(this);
             group.addView(radio);
         }
+        RestClient conex =new RestClient("http://u017633.ehu.eus:18080/AlumnoTta/rest/tta");
     }
     @Override
     public void onClick(View v){
@@ -100,10 +102,10 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
             showHtml("http://www.google.com");
         }
         else if(indicesel==3){
-            showHtml("http://www.ehu.eus");
+            showVideo("http://u017633.ehu.eus:18080/static/AndroidManifest.mp4");
         }
         else if (indicesel == 4) {
-            showHtml("Esta es una ayuda para saber responde");
+            showAudio("http://u017633.ehu.eus:18080/static/AndroidManifest.mp4<");
         }
     }
     private void showHtml(String advise){
@@ -121,26 +123,41 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
             layout.addView(web);
         }
     }
-    private void showVideo(String advise){
-        VideoView video = new VideoView(this);
+    public void showVideo(String advise){
+
+        VideoView video=new VideoView(this);
         video.setVideoURI(Uri.parse(advise));
-        ViewGroup.LayoutParams params =new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        ViewGroup.LayoutParams params=new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
         video.setLayoutParams(params);
         MediaController controller = new MediaController(this){
+
             @Override
-        public void hide(){
-                }
-            @Override
-        public boolean dispatchKeyEvent(KeyEvent event){
-                if(event.getKeyCode()==KeyEvent.KEYCODE_BACK)
+            public void hide(){
+            }
+
+            public boolean dispatchKeyEvent(KeyEvent event){
+                if(event.getKeyCode()==KeyEvent.KEYCODE_BACK){
                     finish();
+                }
                 return super.dispatchKeyEvent(event);
             }
         };
         controller.setAnchorView(video);
         video.setMediaController(controller);
-        LinearLayout layout = (LinearLayout) findViewById(R.id.test_id_Layout);
+        LinearLayout layout=(LinearLayout)findViewById(R.id.test_id_Layout);
         layout.addView(video);
         video.start();
+    }
+    public void showAudio(String advise){
+        View view=new View(this);
+        AudioPlayer audio=new AudioPlayer(view);
+        try {
+            audio.setAudioUri(Uri.parse(advise));
+        }
+        catch(IOException e) {
+        }
+        LinearLayout layout=(LinearLayout)findViewById(R.id.test_id_Layout);
+        layout.addView(view);
+        audio.start();
     }
 }
